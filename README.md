@@ -7,7 +7,7 @@ ChanJH@chanjh.com
 
 # How To：
 - 1.在教务系统» 我的课表 » 学期理论课表下载（打印）课表（未合并），得到学生个人课表+学号.xls
-- 2.执行app.py,按照提示访问locallost:5000或IP:5000，选择并上传课表，浏览器会自动开始下载class.ics。
+- 2.执行app.py,按照提示访问localhost:5000或IP:5000，选择并上传课表，浏览器会自动开始下载class.ics。
 - 3.自行想办法导入手机日历。
 
 # Warning
