@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
     <meta charset="UTF-8">
@@ -27,7 +27,7 @@
   <div class="mdui-toolbar mdui-color-theme">
     <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
     <a  class="mdui-typo-headline mdui-hidden-xs">当前学期课表</a>
-    <a  class="mdui-typo-title">转换</a>
+    <a  class="mdui-typo-title">详细设置</a>
     <div class="mdui-toolbar-spacer"></div>
 
     <a href="https://github.com/lx200916/UPC_ics-Public" target="_blank" class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-tooltip="{content: '查看 Github'}">
@@ -53,14 +53,14 @@
         <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
       </div>
       <div class="mdui-collapse-item-body mdui-list">
-        <a href="../" class="mdui-list-item mdui-ripple mdui-list-item-active">当前学期课表转换</a>
+        <a href="../" class="mdui-list-item mdui-ripple ">当前学期课表转换</a>
           <a href="../inbulid" class="mdui-list-item mdui-ripple ">旧版教务系统课表支持</a></div></div>
         <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
         <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">layers</i>
         <div class="mdui-list-item-content">更多功能</div>
         <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
       </div><div class="mdui-collapse-item-body mdui-list" style="height: auto;">
-        <a href="../set" class="mdui-list-item mdui-ripple ">详细设置</a></div></div>
+        <a href="../set" class="mdui-list-item mdui-ripple mdui-list-item-active">详细设置</a></div></div>
     <a id="anchor-top"></a></div>
 <div class="mdui-container doc-container">
 <script>
@@ -78,21 +78,41 @@
         }
 
     }
-</script><div class="mdui-dialog" id="di">
+</script>
+    <div class="mdui-tab mdui-tab-scrollable" mdui-tab>
+        <a href="#example1-tab1" class="mdui-ripple">选择文件</a>
+        <a href="#example1-tab2" class="mdui-ripple">提醒</a>
+        <a href="#example1-tab3" class="mdui-ripple">学期选择</a>
+    </div><div class="mdui-dialog" id="di">
   <div class="mdui-dialog-title">iCS Maker For UPCer</div>
     <div class="mdui-dialog-content"><span style="font-weight: 100">中国石油大学课表日程转换工具可将教务系统中</span><span style="font-weight: bold"> ‘我的课表‘中下载的新版本课表xls文件（文件名通常为学生课表查询+学号.xls）</span><span style="font-weight: 100">转换为通用ics日程文件.<br>
-        请点击<span style="font-weight: bold">选择文件</span>，选择下载好的课表xls文件，然后点击<i class="material-icons">send</i>,ics文件将自动下载.</span><br>默认值为制作2019-2020-1课表，提前30分钟提醒。左上角菜单中可以实现定制选项.
+        请点击<span style="font-weight: bold">选择文件</span>，选择下载好的课表xls文件，然后点击上方的Tabs名称可进行定制，最后点击<i class="material-icons">send</i>,ics文件将自动下载.</span>
     </div>
 <div class="mdui-dialog-actions">
     <button class="mdui-btn mdui-ripple" mdui-dialog-confirm onclick="f()">OJBK</button>
     <button class="mdui-btn mdui-ripple" mdui-dialog-confirm onclick="f()">OJBK</button></div>
 
 </div>
-    <h1>8说了，冲就完了嗷</h1><div class="mdui-divider"></div>
+    <form enctype='multipart/form-data' method='POST' onsubmit="return sub(this)">
 
-    <p>仅允许上传从教务系统中“学生课表”中下载的课表，查询得到的自己及他人课表不受支持嗷小🔥汁</p>
-    <form action="./" enctype='multipart/form-data' method='POST' onsubmit="return sub(this)">
-      <input type="file" name="file" id="file" class="inputfile" style="
+        <div id="example1-tab1" class="mdui-p-a-2">
+            <div class="mdui-card">
+
+
+
+                <div class="mdui-card-primary">
+                    <div class="mdui-card-primary-title">8说了，冲就完了嗷</div>
+                    <div class="mdui-card-primary-subtitle">冲冲冲冲田总司</div>
+                </div>
+
+                <!-- 卡片的内容 -->
+                <div class="mdui-card-content">仅允许上传从教务系统中“学生课表”中下载的课表，查询得到的自己及他人课表不受支持嗷小🔥汁
+
+                </div>
+
+                <!-- 卡片的按钮 -->
+                <div class="mdui-card-actions">
+                    <input type="file" name="file" id="file" class="inputfile" style="
     width: 0.1px;
     height: 0.1px;
     opacity: 0;
@@ -100,18 +120,70 @@
     position: absolute;
     z-index: -1;
 "/>
-                    <label for="file"  ><div class="mdui-chip">
+ <label for="file"  ><div class="mdui-chip">
   <span class="mdui-chip-icon mdui-color-blue"><i class="mdui-icon material-icons">attach_files</i></span>
   <span class="mdui-chip-title">选择文件</span>
 </div></label>
+                </div></div></div>
 
 
-<button class="mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-ripple" mdui-tooltip="{content: '提交'}"><i class="mdui-icon material-icons">send</i></button>
+            <br><button class="mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-ripple mdui-fab-fixed"><i class="mdui-icon material-icons">send</i></button>    <div id="example1-tab2" class="mdui-p-a-2">
+  <label class="mdui-radio" style="display: none">
+      <input type="radio" name="reminder"  value="0" checked/> <i class="mdui-radio-icon"></i>不提醒</label>
+
+  <div class="mdui-panel" mdui-panel  id="panel">
+    <div class="mdui-panel-item" id="item-1" style="overflow:visible">
+      <div class="mdui-panel-item-header" style="overflow:visible">
+        <div class="mdui-panel-item-title" >设定日历提醒</div>
+        <div class="mdui-panel-item-summary" style="">在生成的文件中包含提前提醒参数，请在移动端导入，部分客户端不支持</div>
+                      <label class="mdui-switch"><input type="checkbox" id="bt"/>
+<i class="mdui-switch-icon" ></i></label>
+
+      </div>
+      <div class="mdui-panel-item-body"><span style="font-weight:100">在生成的文件中包含提前提醒参数，请在移动端导入，部分客户端不支持<span><br>
+       <label class="mdui-radio">
+           <input type="radio" name="reminder"  value="1"/><i class="mdui-radio-icon"></i>上课前 10 分钟提醒</label> <label class="mdui-radio">
+        <input type="radio" name="reminder"  value="2"/><i class="mdui-radio-icon"></i>上课前 30 分钟提醒</label><label class="mdui-radio">
+        <input type="radio" name="reminder"  value="3"/><i class="mdui-radio-icon"></i>上课前 1 小时提醒</label><label class="mdui-radio">
+          <input type="radio" name="reminder"  value="5"/><i class="mdui-radio-icon"></i>上课前 1 天提醒</label></div></div></div></div>
+
+               <div id="example1-tab3" class="mdui-p-a-2">
+
+                   <div class="mdui-card" style="position: relative;z-index: 999;overflow: visible">
+                       <div class="mdui-card-primary">
+                           <div class="mdui-card-primary-title">设定学期</div>
+                           <div class="mdui-card-primary-subtitle">请参阅校历</div>
+                       </div>
+                       <div class="mdui-card-content">请参照教务系统对应学期的日期标示</div>
+                       <div class="mdui-card-actions" style="z-index: 999;overflow: visible">
+                           请选择学期：
+                           <select class="mdui-select" mdui-select name="date" >
+                               <option value="20190701">2018-2019-3</option>
+                               <option value="20190225">2018-2019-2</option>
+                               <option value="20190909">2019-2020-1</option></select>
+                       </div>
+
+                   </div>
+
+
+                </div>
+
 
     </form>
 <p>本人不对课表真实性负责，一切后果自行承担</p>
-  </div>
+  </div><script>
+    nIntervId = setInterval(f1, 500);
+function f1() {
+var asw=new mdui.Drawer('#main-drawer', {swipe: true});
 
+    var inst = new mdui.Panel('#panel');
+
+    if (document.getElementById('bt').checked===true) {
+        inst.open(0);
+    } else { inst.close(0);
+
+    }}
+</script>
 <script>
     function f()
         {

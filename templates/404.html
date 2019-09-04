@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
     <meta charset="UTF-8">
@@ -27,7 +27,7 @@
   <div class="mdui-toolbar mdui-color-theme">
     <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
     <a  class="mdui-typo-headline mdui-hidden-xs">当前学期课表</a>
-    <a  class="mdui-typo-title">转换</a>
+    <a  class="mdui-typo-title">详细设置</a>
     <div class="mdui-toolbar-spacer"></div>
 
     <a href="https://github.com/lx200916/UPC_ics-Public" target="_blank" class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-tooltip="{content: '查看 Github'}">
@@ -43,7 +43,7 @@
   </div>
 
 </header></body><body>
-<div class="mdui-drawer mdui-drawer-close" id="main-drawer">
+<div class="mdui-drawer mdui-drawer-open" id="main-drawer">
 
 <div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px;">
     <div class="mdui-collapse-item mdui-collapse-item-open">
@@ -53,74 +53,53 @@
         <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
       </div>
       <div class="mdui-collapse-item-body mdui-list">
-        <a href="../" class="mdui-list-item mdui-ripple mdui-list-item-active">当前学期课表转换</a>
+        <a href="../" class="mdui-list-item mdui-ripple ">当前学期课表转换</a>
           <a href="../inbulid" class="mdui-list-item mdui-ripple ">旧版教务系统课表支持</a></div></div>
         <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
         <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">layers</i>
         <div class="mdui-list-item-content">更多功能</div>
         <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
       </div><div class="mdui-collapse-item-body mdui-list" style="height: auto;">
-        <a href="../set" class="mdui-list-item mdui-ripple ">详细设置</a></div></div>
-    <a id="anchor-top"></a></div>
-<div class="mdui-container doc-container">
-<script>
-    function sub(obj) {
-        var files=$("#file").val()
-        if(files==""||files.length==0){
-            mdui.snackbar({
-  message: '东西都没有，你转你🐴呢'
-});return false
-        }
-        else {mdui.snackbar({
-  message: '正在转换....'
-});
-            return true
-        }
+        <a href="../set" class="mdui-list-item mdui-ripple">详细设置</a></div></div>
+    <a id="anchor-top"></a></div><div class="mdui-container doc-container">
+<div class="mdui-card mdui-card-media-covered-top">
 
-    }
-</script><div class="mdui-dialog" id="di">
-  <div class="mdui-dialog-title">iCS Maker For UPCer</div>
-    <div class="mdui-dialog-content"><span style="font-weight: 100">中国石油大学课表日程转换工具可将教务系统中</span><span style="font-weight: bold"> ‘我的课表‘中下载的新版本课表xls文件（文件名通常为学生课表查询+学号.xls）</span><span style="font-weight: 100">转换为通用ics日程文件.<br>
-        请点击<span style="font-weight: bold">选择文件</span>，选择下载好的课表xls文件，然后点击<i class="material-icons">send</i>,ics文件将自动下载.</span><br>默认值为制作2019-2020-1课表，提前30分钟提醒。左上角菜单中可以实现定制选项.
-    </div>
-<div class="mdui-dialog-actions">
-    <button class="mdui-btn mdui-ripple" mdui-dialog-confirm onclick="f()">OJBK</button>
-    <button class="mdui-btn mdui-ripple" mdui-dialog-confirm onclick="f()">OJBK</button></div>
-
-</div>
-    <h1>8说了，冲就完了嗷</h1><div class="mdui-divider"></div>
-
-    <p>仅允许上传从教务系统中“学生课表”中下载的课表，查询得到的自己及他人课表不受支持嗷小🔥汁</p>
-    <form action="./" enctype='multipart/form-data' method='POST' onsubmit="return sub(this)">
-      <input type="file" name="file" id="file" class="inputfile" style="
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-"/>
-                    <label for="file"  ><div class="mdui-chip">
-  <span class="mdui-chip-icon mdui-color-blue"><i class="mdui-icon material-icons">attach_files</i></span>
-  <span class="mdui-chip-title">选择文件</span>
-</div></label>
-
-
-<button class="mdui-btn mdui-btn-icon mdui-color-theme-accent mdui-ripple" mdui-tooltip="{content: '提交'}"><i class="mdui-icon material-icons">send</i></button>
-
-    </form>
-<p>本人不对课表真实性负责，一切后果自行承担</p>
+  <!-- 卡片头部，包含头像、标题、副标题 -->
+  <div class="mdui-card-header">
+    <img class="mdui-card-header-avatar" src="{{ url_for('static', filename='dsx.jpg') }}"/>
+    <div class="mdui-card-header-title">Sakura川</div>
+    <div class="mdui-card-header-subtitle">带带大师兄</div>
   </div>
 
+  <!-- 卡片的媒体内容，可以包含图片、视频等媒体内容，以及标题、副标题 -->
+  <div class="mdui-card-media">
+    <img src="{{ url_for('static', filename='dddsx.jpg') }}"/>
+
+    <!-- 卡片中可以包含一个或多个菜单按钮 -->
+    <div class="mdui-card-menu">
+      <button class="mdui-btn mdui-btn-icon mdui-text-color-white"><i class="mdui-icon material-icons">share</i></button>
+    </div>
+  </div>
+
+  <!-- 卡片的标题和副标题 -->
+  <div class="mdui-card-primary">
+    <div class="mdui-card-primary-title">没做完嗷</div>
+    <div class="mdui-card-primary-subtitle">提个Hape需求嗷</div>
+  </div>
+
+  <!-- 卡片的内容 -->
+  <div class="mdui-card-content">这个功能还没实现，慢慢等把小🔥汁</div>
+
+  <!-- 卡片的按钮 -->
+  <div class="mdui-card-actions">
+    <button class="mdui-btn mdui-ripple" onclick="window.location.href='./'">回主页</button>
+    <button class="mdui-btn mdui-ripple" onclick="window.open('//github.com/lx200916/UPC_ics-Public')" >你个Hape，我自己搞</button>
+    <button class="mdui-btn mdui-btn-icon mdui-float-right"><i class="mdui-icon material-icons">expand_more</i></button>
+  </div>
+
+</div></div>
 <script>
-    function f()
-        {
-        mdui.alert('本人不对课表真实性负责，一切后果自行承担.若有任何问题请在GitHub提出issue或PR.Github地址以附左上角','',{history:false})
-
-
-    }
-const dia=new mdui.Dialog("#di",{history:false});
-    dia.open();
+    var as=new mdui.Drawer('#main-drawer', {swipe: true});
 </script>
   <!-- Hotjar Tracking Code for alsworld.xyz -->
 <script>
