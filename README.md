@@ -3,6 +3,9 @@
 ChanJH@chanjh.com
 @yupotian
 
+
+[![State-of-the-art Shitcode](https://img.shields.io/static/v1?label=State-of-the-art&message=Shitcode&color=7B5804)](https://github.com/trekhleb/state-of-the-art-shitcode)
+
 # How To：
 - 1.在教务系统-课表查询下载课表（未合并），得到kb.xls，打开(教务系统使用的文件格式不规范，因此打开时出现错误是正常的，忽略即可）
 - 2.将kb.xls的sheet1的整个表格复制到项目中kb.xlsm的sheet1中，请保持复制前后单元格行列的对应位置相同，kb.xlsm中已附示例。
