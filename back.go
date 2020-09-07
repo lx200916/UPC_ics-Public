@@ -261,6 +261,12 @@ func ics(path string, date string, reminder int, types int) {
 				for k := 1; k <= len(infos)/6; k++ {
 					time := infos[3+6*k-6]
 					var i1, i3 int
+					var classtime int
+					if infos[4+6*k-6] == "[03-04-05节]" {
+						classtime = 7
+					} else {
+						classtime = i - 3
+					}
 					if strings.Contains(time, "(") {
 						time = strings.Split(time, "(")[0]
 
@@ -279,7 +285,7 @@ func ics(path string, date string, reminder int, types int) {
 											EndWeek   int `json:"endWeek"`
 										}{i1, i3},
 										Weekday:   j - 1,
-										ClassTime: i - 3,
+										ClassTime: classtime,
 										Classroom: infos[5+6*k-6],
 										Teacher:   infos[2+6*k-6],
 										Repeat:    1,
@@ -296,7 +302,7 @@ func ics(path string, date string, reminder int, types int) {
 											EndWeek   int `json:"endWeek"`
 										}{i1, i3},
 										Weekday:   j - 1,
-										ClassTime: i - 3,
+										ClassTime: classtime,
 										Classroom: infos[5+6*k-6],
 										Teacher:   infos[2+6*k-6],
 									}
@@ -315,7 +321,7 @@ func ics(path string, date string, reminder int, types int) {
 									EndWeek   int `json:"endWeek"`
 								}{i1, i3},
 								Weekday:   j - 1,
-								ClassTime: i - 3,
+								ClassTime: classtime,
 								Classroom: infos[5+6*k-6],
 								Teacher:   infos[2+6*k-6],
 								Repeat:    1,
@@ -333,7 +339,7 @@ func ics(path string, date string, reminder int, types int) {
 									EndWeek   int `json:"endWeek"`
 								}{3, 17},
 								Weekday:   j - 1,
-								ClassTime: i - 3,
+								ClassTime: classtime,
 								Classroom: infos[5+6*k-6],
 								Teacher:   infos[2+6*k-6],
 								Repeat:    2,
@@ -349,7 +355,7 @@ func ics(path string, date string, reminder int, types int) {
 									EndWeek   int `json:"endWeek"`
 								}{2, 16},
 								Weekday:   j - 1,
-								ClassTime: i - 3,
+								ClassTime: classtime,
 								Classroom: infos[5+6*k-6],
 								Teacher:   infos[2+6*k-6],
 								Repeat:    3,
@@ -368,7 +374,7 @@ func ics(path string, date string, reminder int, types int) {
 											EndWeek   int `json:"endWeek"`
 										}{i1, i3},
 										Weekday:   j - 1,
-										ClassTime: i - 3,
+										ClassTime: classtime,
 										Classroom: infos[5+6*k-6],
 										Teacher:   infos[2+6*k-6],
 										Repeat:    1,
@@ -385,7 +391,7 @@ func ics(path string, date string, reminder int, types int) {
 											EndWeek   int `json:"endWeek"`
 										}{i1, i3},
 										Weekday:   j - 1,
-										ClassTime: i - 3,
+										ClassTime: classtime,
 										Classroom: infos[5+6*k-6],
 										Teacher:   infos[2+6*k-6],
 									}
@@ -405,7 +411,7 @@ func ics(path string, date string, reminder int, types int) {
 								EndWeek   int `json:"endWeek"`
 							}{i1, i3},
 							Weekday:   j - 1,
-							ClassTime: i - 3,
+							ClassTime: classtime,
 							Classroom: infos[5+6*k-6],
 							Teacher:   infos[2+6*k-6],
 						}
