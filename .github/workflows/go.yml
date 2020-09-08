@@ -1,12 +1,7 @@
 name: Go
 
-on:
-  push:
-    branches: 
-      - Golang
-  pull_request:
-    branches: 
-      - Golang
+on: [push, pull_request]
+
 
 jobs:
 
