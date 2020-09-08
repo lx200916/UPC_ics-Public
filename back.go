@@ -142,7 +142,7 @@ func main() {
 		//xlss(path)
 		date := c.Request.Form["date"][0]
 		reminder, _ := strconv.Atoi(c.Request.Form["reminder"][0])
-		ics(path, date, reminder, 0)
+		ics(path, date, reminder-1, 0)
 
 		c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=class.ics")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
 		c.Writer.Header().Add("Content-Type", "application/octet-stream")
