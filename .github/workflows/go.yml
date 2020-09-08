@@ -2,9 +2,9 @@ name: Go
 
 on:
   push:
-    branches: [ Golang ]
+    branches: [ 'Golang' ]
   pull_request:
-    branches: [ Golang ]
+    branches: [ 'Golang' ]
 
 jobs:
 
