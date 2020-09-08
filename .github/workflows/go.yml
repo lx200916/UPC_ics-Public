@@ -33,11 +33,10 @@ jobs:
         mkdir upload
         rm go.sum
         rm back.go
-        zip -r Linux-amd64.zip  ./
 
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
         name: Linux_amd64
-        path: Linux-amd64.zip
+        path: ./
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
