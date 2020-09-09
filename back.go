@@ -111,7 +111,7 @@ func main() {
 		t := ics1(files)
 		c.Writer.Header().Add("Content-Type", "text/calendar")
 
-		c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
+		c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=\"class.ics\"")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
 		c.Data(200, "text/calendar", []byte(t))
 		return
 
@@ -155,7 +155,7 @@ func main() {
 		reminder, _ := strconv.Atoi(c.Request.Form["reminder"][0])
 		t := ics(files, date, reminder-1, 0)
 
-		c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=class.ics")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
+		c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=\"class.ics\"")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
 		c.Writer.Header().Add("Content-Type", "text/calendar")
 		//c.File(path + "/class.ics")'
 		c.Data(200, "text/calendar", []byte(t))
