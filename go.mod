@@ -1,4 +1,4 @@
-module awesomeProject7
+module back
 
 go 1.13
 
