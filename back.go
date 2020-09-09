@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/extrame/xls"
@@ -12,7 +13,7 @@ import (
 	"net/http"
 	_ "net/http"
 	"os"
-	"path/filepath"
+	_ "path/filepath"
 	"strconv"
 	"strings"
 	"sync"
@@ -84,26 +85,34 @@ var DONE_CreatedTime = ""
 var DONE_ALARMUID = ""
 
 func main() {
-	r := gin.Default()
-	r.LoadHTMLGlob("./templates/*")
+
+	x := gin.Default()
+	r := x.Group("/ics")
+	x.LoadHTMLGlob("./templates/*")
 	r.StaticFS("/static", http.Dir("./static"))
+
 	r.GET("/", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
 	})
-	r.NoRoute(func(context *gin.Context) {
+	x.NoRoute(func(context *gin.Context) {
 		context.HTML(404, "404.html", nil)
 	})
 	r.POST("/", func(c *gin.Context) {
 		file, _ := c.FormFile("file")
-		path, _ := os.Getwd()
-		path = filepath.Join(path, "upload", strconv.FormatInt(time.Now().Unix(), 10)+RandStringBytes(2))
-		_ = os.MkdirAll(path, os.ModePerm)
-		_ = c.SaveUploadedFile(file, path+"/kb.xls")
+		files, _ := file.Open()
+
+		//path, _ := os.Getwd()
+		//path = filepath.Join(path, "upload", strconv.FormatInt(time.Now().Unix(), 10)+RandStringBytes(2))
+		//_ = os.MkdirAll(path, os.ModePerm)
+		//
+		//_ = c.SaveUploadedFile(file, path+"/kb.xls")
 		//xlss(path)
-		ics1(path)
-		c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=class.ics")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
-		c.Writer.Header().Add("Content-Type", "application/octet-stream")
-		c.File(path + "/class.ics")
+
+		t := ics1(files)
+		c.Writer.Header().Add("Content-Type", "text/calendar")
+
+		c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
+		c.Data(200, "text/calendar", []byte(t))
 		return
 
 	})
@@ -117,16 +126,17 @@ func main() {
 	})
 	r.POST("/mi", func(c *gin.Context) {
 		file, _ := c.FormFile("file")
-		path, _ := os.Getwd()
-		path = filepath.Join(path, "upload", strconv.FormatInt(time.Now().Unix(), 10)+RandStringBytes(2))
-		_ = os.MkdirAll(path, os.ModePerm)
-		_ = c.SaveUploadedFile(file, path+"/kb.xls")
+		files, _ := file.Open()
+		//path, _ := os.Getwd()
+		//path = filepath.Join(path, "upload", strconv.FormatInt(time.Now().Unix(), 10)+RandStringBytes(2))
+		//_ = os.MkdirAll(path, os.ModePerm)
+		//_ = c.SaveUploadedFile(file, path+"/kb.xls")
 		//xlss(path)
 		userid, _ := strconv.Atoi(c.Request.Form["miid"][0])
 		fmt.Print(userid)
 		mu.Lock()
 
-		t = icsm(path, userid)
+		t = icsm(files, userid)
 
 		defer mu.Unlock()
 
@@ -135,21 +145,24 @@ func main() {
 	})
 	r.POST("/set", func(c *gin.Context) {
 		file, _ := c.FormFile("file")
-		path, _ := os.Getwd()
-		path = filepath.Join(path, "upload", strconv.FormatInt(time.Now().Unix(), 10)+RandStringBytes(2))
-		_ = os.MkdirAll(path, os.ModePerm)
-		_ = c.SaveUploadedFile(file, path+"/kb.xls")
+		//path, _ := os.Getwd()
+		//path = filepath.Join(path, "upload", strconv.FormatInt(time.Now().Unix(), 10)+RandStringBytes(2))
+		//_ = os.MkdirAll(path, os.ModePerm)
+		//_ = c.SaveUploadedFile(file, path+"/kb.xls")
+		files, _ := file.Open()
 		//xlss(path)
 		date := c.Request.Form["date"][0]
 		reminder, _ := strconv.Atoi(c.Request.Form["reminder"][0])
-		ics(path, date, reminder-1, 0)
+		t := ics(files, date, reminder-1, 0)
 
 		c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=class.ics")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
-		c.Writer.Header().Add("Content-Type", "application/octet-stream")
-		c.File(path + "/class.ics")
+		c.Writer.Header().Add("Content-Type", "text/calendar")
+		//c.File(path + "/class.ics")'
+		c.Data(200, "text/calendar", []byte(t))
+
 		return
 	})
-	_ = r.Run("0.0.0.0:5000")
+	_ = x.Run("0.0.0.0:5000")
 
 	//st, _ := json.Marshal(classlist)
 	//fmt.Print(string(st))
@@ -163,14 +176,14 @@ func gettime() []Time {
 	return timelist
 }
 
-func ics1(path string) {
-	ics(path, "20200907", 1, 0)
+func ics1(path io.Reader) string {
+	return ics(path, "20200907", 1, 0)
 }
-func icsm(path string, types int) int {
+func icsm(path io.Reader, types int) int {
 	ics(path, "20200907", 1, types)
 	return 1
 }
-func ics(path string, date string, reminder int, types int) {
+func ics(path io.Reader, date string, reminder int, types int) string {
 	var csid int
 	if types != 0 {
 		client := &http.Client{}
@@ -249,7 +262,9 @@ func ics(path string, date string, reminder int, types int) {
 	reminderList := []string{"-PT10M", "-PT30M", "-PT1H", "-PT2H", "-P1D"}
 	DONE_ALARMUID = RandStringBytes(30) + "&UPC.edu"
 	DONE_UnitUID = RandStringBytes(20) + "&UPC.edu"
-	if xlFile, err := xls.Open(path+"/kb.xls", "utf-8"); err == nil {
+	data, _ := ioutil.ReadAll(path)
+	t := bytes.NewReader(data)
+	if xlFile, err := xls.OpenReader(t, "utf-8"); err == nil {
 		//fmt.Println(xlFile.GetSheet(0).Row(5).Col(0))
 		sheet1 := xlFile.GetSheet(0)
 		for i := 3; i <= (int(sheet1.MaxRow)); i++ {
@@ -502,11 +517,12 @@ func ics(path string, date string, reminder int, types int) {
 	} else {
 		icsString1 := icsString + eventString + "END:VCALENDAR"
 
-		out, _ := os.OpenFile(path+"/class.ics", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0755)
+		//out, _ := os.OpenFile(path+"/class.ics", os.O_WRONLY|os.O_TRUNC|os.O_CREATE, 0755)
 
-		fmt.Print(fmt.Fprint(io.Writer(out), icsString1))
-
+		//fmt.Print(fmt.Fprint(io.Writer(out), icsString1))
+		return icsString1
 	}
+	return icsString
 
 }
 func clean(csid int, userid int) {
