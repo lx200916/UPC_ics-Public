@@ -279,12 +279,9 @@ func ics(path io.Reader, date string, reminder int, types int) string {
 					var classtime int
 					if infos[4+6*k-6] == "[03-04-05节]" {
 						classtime = 7
-<<<<<<< HEAD
 					} else if infos[4+6*k-6] == "[10-11-12节]" {
 						classtime = 8
 
-=======
->>>>>>> f766dd4e65356a44dec3660f8089a9c49bbdab98
 					} else {
 						classtime = i - 3
 					}
