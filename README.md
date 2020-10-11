@@ -2,7 +2,8 @@
 @AndyLiu24
 ChanJH@chanjh.com
 @yupotian
-
+# Notes
+此版本已下线,新版本使用Gin框架重写,见 `Golang` 分支
 
 [![State-of-the-art Shitcode](https://img.shields.io/static/v1?label=State-of-the-art&message=Shitcode&color=7B5804)](https://github.com/trekhleb/state-of-the-art-shitcode)
 
