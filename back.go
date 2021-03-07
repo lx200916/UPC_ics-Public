@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/extrame/xls"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
 	"io"
 	"io/ioutil"
@@ -13,6 +15,7 @@ import (
 	"net/http"
 	_ "net/http"
 	"os"
+	"path/filepath"
 	_ "path/filepath"
 	"strconv"
 	"strings"
@@ -87,7 +90,9 @@ var DONE_ALARMUID = ""
 func main() {
 
 	x := gin.Default()
-	r := x.Group("/ics")
+	store := cookie.NewStore([]byte("ICSSS"))
+	x.Use(sessions.Sessions("mysession", store))
+	r := x.Group("/")
 	x.LoadHTMLGlob("./templates/*")
 	r.StaticFS("/static", http.Dir("./static"))
 
@@ -97,10 +102,26 @@ func main() {
 	x.NoRoute(func(context *gin.Context) {
 		context.HTML(404, "404.html", nil)
 	})
+	r.GET("/file", func(context *gin.Context) {
+		session := sessions.Default(context)
+		if session.Get("File") != nil && session.Get("File").(string) != "" && session.Get("Num").(int) > 0 {
+			context.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=\"class.ics\"")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
+			context.File(session.Get("File").(string) + "/class.ics")
+			//session.Get()
+
+		} else {
+			return
+		}
+	})
 	r.POST("/", func(c *gin.Context) {
+		session := sessions.Default(c)
 		file, _ := c.FormFile("file")
 		files, _ := file.Open()
-
+		path, _ := os.Getwd()
+		path = filepath.Join(path, "upload", strconv.FormatInt(time.Now().Unix(), 10)+RandStringBytes(2))
+		_ = os.MkdirAll(path, os.ModePerm)
+		_ = c.SaveUploadedFile(file, path+"/kb.xls")
+		//files, _ = file.Open()
 		//path, _ := os.Getwd()
 		//path = filepath.Join(path, "upload", strconv.FormatInt(time.Now().Unix(), 10)+RandStringBytes(2))
 		//_ = os.MkdirAll(path, os.ModePerm)
@@ -109,10 +130,21 @@ func main() {
 		//xlss(path)
 
 		t := ics1(files)
-		c.Writer.Header().Add("Content-Type", "text/calendar")
+		//c.Writer.Header().Add("Content-Type", "text/calendar")
+		//
+		//c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=\"class.ics\"")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
+		fileout, _ := os.Create(path + "/class.ics")
 
-		c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=\"class.ics\"")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
-		c.Data(200, "text/calendar", []byte(t))
+		_, _ = fileout.WriteString(t)
+		_ = fileout.Close()
+		session.Set("File", path)
+		session.Set("Num", 3)
+		_ = session.Save()
+		c.Redirect(302, "/file")
+
+		//c.File(path+"/class.ics")
+
+		//c.Data(200, "text/calendar", []byte(t))
 		return
 
 	})
@@ -144,21 +176,33 @@ func main() {
 
 	})
 	r.POST("/set", func(c *gin.Context) {
+		session := sessions.Default(c)
+
 		file, _ := c.FormFile("file")
-		//path, _ := os.Getwd()
-		//path = filepath.Join(path, "upload", strconv.FormatInt(time.Now().Unix(), 10)+RandStringBytes(2))
-		//_ = os.MkdirAll(path, os.ModePerm)
-		//_ = c.SaveUploadedFile(file, path+"/kb.xls")
+		path, _ := os.Getwd()
+		path = filepath.Join(path, "upload", strconv.FormatInt(time.Now().Unix(), 10)+RandStringBytes(2))
+		_ = os.MkdirAll(path, os.ModePerm)
+		_ = c.SaveUploadedFile(file, path+"/kb.xls")
 		files, _ := file.Open()
 		//xlss(path)
 		date := c.Request.Form["date"][0]
 		reminder, _ := strconv.Atoi(c.Request.Form["reminder"][0])
 		t := ics(files, date, reminder-1, 0)
+		//fileout, _ := os.Open(path+"/class.ics")
+		fileout, _ := os.Create(path + "/class.ics")
 
-		c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=\"class.ics\"")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
-		c.Writer.Header().Add("Content-Type", "text/calendar")
-		//c.File(path + "/class.ics")'
-		c.Data(200, "text/calendar", []byte(t))
+		_, _ = fileout.WriteString(t)
+		_ = fileout.Close()
+
+		//c.Writer.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=\"class.ics\"")) //fmt.Sprintf("attachment; filename=%s", filename)对下载的文件重命名
+		//c.Writer.Header().Add("Content-Type", "text/calendar")
+		session.Set("File", path)
+		session.Set("Num", 3)
+		//c.File(path + "/class.ics")
+		_ = session.Save()
+
+		c.Redirect(302, "/file")
+		//c.Data(200, "text/calendar", []byte(t))
 
 		return
 	})
@@ -177,10 +221,10 @@ func gettime() []Time {
 }
 
 func ics1(path io.Reader) string {
-	return ics(path, "20200907", 1, 0)
+	return ics(path, "20210301", 1, 0)
 }
 func icsm(path io.Reader, types int) int {
-	ics(path, "20200907", 1, types)
+	ics(path, "20210301", 1, types)
 	return 1
 }
 func ics(path io.Reader, date string, reminder int, types int) string {
@@ -253,9 +297,7 @@ func ics(path io.Reader, date string, reminder int, types int) string {
 		req.Header.Add("sec-fetch-dest", "empty")
 		req.Header.Add("referer", "https://i.ai.mi.com/h5/precache/ai-schedule/")
 		req.Header.Add("accept-language", "zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7")
-
 		_, _ = client.Do(req)
-
 	}
 
 	var classlist []Class
@@ -279,6 +321,8 @@ func ics(path io.Reader, date string, reminder int, types int) string {
 					var classtime int
 					if infos[4+6*k-6] == "[03-04-05节]" {
 						classtime = 7
+					} else if infos[4+6*k-6] == "[10-11-12节]" {
+						classtime = 8
 					} else {
 						classtime = i - 3
 					}
