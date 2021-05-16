@@ -6,30 +6,86 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="renderer" content="webkit">
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css">
-    <script src="https://cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
+    <title>iCS Convertor</title>
+    <link
+            rel="stylesheet"
+            href="https://shadow.elemecdn.com/npm/mdui@1.0.1/dist/css/mdui.min.css"
+            crossorigin="anonymous"
+    />
+
+    <!-- MDUI JavaScript -->
+    <script
+            src="https://shadow.elemecdn.com/npm/mdui@1.0.1/dist/js/mdui.min.js"
+            crossorigin="anonymous"
+    ></script>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-    <!-- Hotjar Tracking Code for alsworld.xyz -->
-    <script>
-        (function(h, o, t, j, a, r) {
-            h.hj = h.hj || function() {
-                (h.hj.q = h.hj.q || []).push(arguments)
-            };
-            h._hjSettings = {
-                hjid: 1387860,
-                hjsv: 6
-            };
-            a = o.getElementsByTagName('head')[0];
-            r = o.createElement('script');
-            r.async = 1;
-            r.src = t + h._hjSettings.hjid + j + h._hjSettings.hjsv;
-            a.appendChild(r);
-        })(window, document, 'https://static.hotjar.com/c/hotjar-', '.js?sv=');
-    </script>
+
+    <style>
+        .mc-drawer .mdui-list-item {
+            padding-left: 20px;
+            border-radius: 0 50px 50px 0
+        }
+
+        .mc-drawer {
+            display: flex;
+            flex-direction: column
+        }
+
+        .mc-drawer .mdui-list {
+            flex: 1;
+            box-sizing: border-box
+        }
+
+        .mc-drawer .mdui-list-item-icon {
+            transform: scale(.875)
+        }
+
+        .mc-drawer .mdui-list-item-content {
+            font-weight: 400;
+            font-size: 14px
+        }
+
+        .mc-drawer .mdui-list-item-active {
+            color: #1a73e8;
+            background-color: #e8f0fe
+        }
+
+        .mdui-theme-layout-dark .mc-drawer .mdui-list-item-active {
+            color: #fff;
+            background-color: #424242
+        }
+
+        .mc-drawer .mdui-list-item-active .mdui-list-item-icon {
+            color: #1a73e8
+        }
+
+        @media (prefers-color-scheme: dark) {
+            .mdui-theme-layout-auto .mc-drawer .mdui-list-item-active .mdui-list-item-icon {
+                color: #fff
+            }
+
+            .mdui-theme-layout-auto .mc-drawer .mdui-list-item-active {
+                color: #fff;
+                background-color: #424242
+            }
+
+            .mdui-theme-layout-auto .mc-drawer .mdui-list-item-active .mdui-list-item-icon {
+                color: #fff
+            }
+        }
+        .doc-container{
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 70px );
+        }
+
+        .mc-drawer .mdui-list-item-active .mdui-list-item-icon {
+            color: #1a73e8
+        }
+    </style>
 </head>
 
-<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded">
+<body class="mdui-drawer-body-left mdui-appbar-with-toolbar mdui-theme-layout-auto mdui-theme-primary-indigo mdui-theme-accent-pink mdui-loaded">
 
     <header class="mdui-appbar mdui-appbar-fixed">
         <div class="mdui-toolbar mdui-color-theme">
@@ -51,30 +107,38 @@
         </div>
 
     </header>
-</body>
 
-<body>
-    <div class="mdui-drawer mdui-drawer-close" id="main-drawer">
+<div class="mdui-drawer mc-drawer" id="main-drawer">
 
-        <div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px;">
-            <div class="mdui-collapse-item mdui-collapse-item-open">
-                <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
-                    <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">near_me</i>
-                    <div class="mdui-list-item-content">开始使用</div>
-                    <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
-                </div>
-                <div class="mdui-collapse-item-body mdui-list">
-                    <a href="/ics/" class="mdui-list-item mdui-ripple ">当前学期课表转换</a>
-                    <a href="/ics/inbulid" class="mdui-list-item mdui-ripple ">旧版教务系统课表支持</a></div>
-            </div>
+    <div class="mdui-list" mdui-collapse="{accordion: true}" style="margin-bottom: 76px;">
+        <div class="mdui-collapse-item mdui-collapse-item-open">
             <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
-                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">layers</i>
-                <div class="mdui-list-item-content">更多功能</div>
+                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">near_me</i>
+                <div class="mdui-list-item-content">开始使用</div>
                 <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
             </div>
-            <div class="mdui-collapse-item-body mdui-list" style="height: auto;">
-                <a href="/ics/set" class="mdui-list-item mdui-ripple mdui-list-item-active">详细设置</a></div>
+            <div class="mdui-collapse-item-body mdui-list">
+                <a href="/" class="mdui-list-item mdui-ripple ">
+                    <i class="mdui-icon material-icons mdui-list-item-icon">assistant_photo</i><span
+                        class="mdui-list-item-content">当前学期课表转换</span></a>
+                <!--          <a href="/ics/inbulid" class="mdui-list-item mdui-ripple ">旧版教务系统课表支持</a>-->
+            </div>
         </div>
+        <div class="mdui-collapse-item-header mdui-list-item mdui-ripple">
+            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">layers</i>
+            <div class="mdui-list-item-content">更多功能</div>
+            <i class="mdui-collapse-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
+        </div>
+        <div class="mdui-collapse-item-body mdui-list" style="height: auto;">
+            <a href="/set" class="mdui-list-item mdui-ripple mdui-list-item-active">
+                <i class="mdui-icon material-icons mdui-list-item-icon">settings</i><span
+                    class="mdui-list-item-content ">详细设置</span> </a>
+            <a href="/mi" class="mdui-list-item mdui-ripple ">
+                <i class="mdui-icon material-icons mdui-list-item-icon">assistant</i><span
+                    class="mdui-list-item-content">小爱课程表</span> </a></div>
+    </div>
+</div>
+</div>
         <a id="anchor-top"></a>
     </div>
     <div class="mdui-container doc-container">
@@ -110,7 +174,7 @@
                 <button class="mdui-btn mdui-ripple" mdui-dialog-confirm onclick="f()">OJBK</button></div>
 
         </div>
-        <form enctype='multipart/form-data' method='POST' onsubmit="return sub(this)">
+        <form enctype='multipart/form-data' method='POST' action="/api/" onsubmit="return sub(this)">
 
             <div id="example1-tab1" class="mdui-p-a-2">
                 <div class="mdui-card">
@@ -118,12 +182,12 @@
 
 
                     <div class="mdui-card-primary">
-                        <div class="mdui-card-primary-title">8说了，冲就完了嗷</div>
-                        <div class="mdui-card-primary-subtitle">冲冲冲冲田总司</div>
+                        <div class="mdui-card-primary-title">选择文件以开始</div>
+                        <div class="mdui-card-primary-subtitle">在这里可以定制学期和课前提醒</div>
                     </div>
 
                     <!-- 卡片的内容 -->
-                    <div class="mdui-card-content">仅允许上传从教务系统中“学生课表”中下载的课表，查询得到的自己及他人课表不受支持嗷小🔥汁
+                    <div class="mdui-card-content">仅允许上传从教务系统中“学生课表”中下载的课表
 
                     </div>
 
@@ -178,8 +242,8 @@
                        <div class="mdui-card-actions" style="z-index: 999;overflow: visible">
                            请选择学期：
                            <select class="mdui-select" mdui-select name="date" >
-                            <option value="20200907">2020-2021-1</option>
-                               <option value="20190909">2019-2020-1</option>
+                               <option value="20210301">2020-2021-1</option>
+                               <option value="20200907">2020-2021-1</option>
                               </select>
                        </div>
 
@@ -190,8 +254,11 @@
 
 
     </form>
-<p>本人不对课表真实性负责，一切后果自行承担</p>
-  </div><script>
+        <div style="margin-top: auto;">
+        <div style="display: flex;flex-direction: row"><i class="mdui-icon material-icons" style="margin-right: 10px;">&#xe887;</i><div>仅允许上传从教务系统中“学生课表”中下载的课表，查询得到的自己及他人课表不受支持嗷</div></div>
+
+        <div style="display: flex;flex-direction: row"><i class="mdui-icon material-icons"  style="margin-right: 10px;">&#xe002;</i><div>本人不对课表真实性负责，一切后果自行承担</div></div></div>
+    </div> <script>
     nIntervId = setInterval(f1, 500);
 function f1() {
 var asw=new mdui.Drawer('#main-drawer', {swipe: true});
@@ -215,15 +282,6 @@ const dia=new mdui.Dialog("#di",{history:false});
     dia.open();
 </script>
   <!-- Hotjar Tracking Code for alsworld.xyz -->
-<script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:1387860,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
+
 </body>
 </html>

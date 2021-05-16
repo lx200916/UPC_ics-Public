@@ -69,7 +69,7 @@ type Class struct {
 }
 
 var Weekd = []string{"SU", "MO", "TU", "WE", "TH", "FR", "SA"}
-var icsString = "BEGIN:VCALENDAR\nMETHOD:PUBLISH\nVERSION:2.0\nX-WR-CALNAME:课程表\nPRODID:-//Apple Inc.//Mac OS X 10.14//EN\nX-APPLE-CALENDAR-COLOR:#FC4208\nX-WR-TIMEZONE:Asia/Shanghai\nCALSCALE:GREGORIAN\n"
+var icsString = "BEGIN:VCALENDAR\nMETHOD:PUBLISH\nVERSION:2.0\nX-WR-CALNAME:课程表\nPRODID:-//Apple Inc.//Mac OS X 10.14//EN\nX-APPLE-CALENDAR-COLOR:#FC4208\nX-WR-TIMEZONE:Asia/Shanghai\nCALSCALE:GREGORIAN\nBEGIN:VTIMEZONE\nTZID:Asia/Shanghai\nLAST-MODIFIED:20201011T015912Z\nX-LIC-LOCATION:Asia/Shanghai\nX-PROLEPTIC-TZNAME:LMT\nBEGIN:STANDARD\nTZNAME:CST\nTZOFFSETFROM:+080543\nTZOFFSETTO:+0800\nDTSTART:19010101T000000\nEND:STANDARD\nBEGIN:DAYLIGHT\nTZNAME:CDT\nTZOFFSETFROM:+0800\nTZOFFSETTO:+0900\nDTSTART:19190413T000000\nRDATE:19400601T000000\nRDATE:19410315T000000\nRDATE:19420131T000000\nRDATE:19460515T000000\nRDATE:19470415T000000\nRDATE:19860504T020000\nEND:DAYLIGHT\nBEGIN:STANDARD\nTZNAME:CST\nTZOFFSETFROM:+0900\nTZOFFSETTO:+0800\nDTSTART:19191001T000000\nRDATE:19401013T000000\nRDATE:19411102T000000\nRDATE:19450902T000000\nRDATE:19461001T000000\nRDATE:19471101T000000\nRDATE:19481001T000000\nRDATE:19490528T000000\nEND:STANDARD\nBEGIN:DAYLIGHT\nTZNAME:CDT\nTZOFFSETFROM:+0800\nTZOFFSETTO:+0900\nDTSTART:19480501T000000\nRRULE:FREQ=YEARLY;UNTIL=19490430T160000Z\nEND:DAYLIGHT\nBEGIN:STANDARD\nTZNAME:CST\nTZOFFSETFROM:+0900\nTZOFFSETTO:+0800\nDTSTART:19860914T020000\nRRULE:FREQ=YEARLY;BYMONTH=9;BYMONTHDAY=11,12,13,14,15,16,17;BYDAY=SU;UNTIL=19910914T170000Z\nEND:STANDARD\nBEGIN:DAYLIGHT\nTZNAME:CDT\nTZOFFSETFROM:+0800\nTZOFFSETTO:+0900\nDTSTART:19870412T020000\nRRULE:FREQ=YEARLY;BYMONTH=4;BYMONTHDAY=11,12,13,14,15,16,17;BYDAY=SU;UNTIL=19910413T180000Z\nEND:DAYLIGHT\nEND:VTIMEZONE\n"
 
 const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -92,13 +92,13 @@ func main() {
 	x := gin.Default()
 	store := cookie.NewStore([]byte("ICSSS"))
 	x.Use(sessions.Sessions("mysession", store))
-	r := x.Group("/")
-	x.LoadHTMLGlob("./templates/*")
-	r.StaticFS("/static", http.Dir("./static"))
+	r := x.Group("/api")
+	//x.LoadHTMLGlob("./templates/*")
+	//r.StaticFS("/static", http.Dir("./static"))
 
-	r.GET("/", func(c *gin.Context) {
-		c.HTML(200, "index.html", nil)
-	})
+	//r.GET("/", func(c *gin.Context) {
+	//	c.HTML(200, "index.html", nil)
+	//})
 	x.NoRoute(func(context *gin.Context) {
 		context.HTML(404, "404.html", nil)
 	})
@@ -140,7 +140,7 @@ func main() {
 		session.Set("File", path)
 		session.Set("Num", 3)
 		_ = session.Save()
-		c.Redirect(302, "/file")
+		c.Redirect(302, "/api/file")
 
 		//c.File(path+"/class.ics")
 
@@ -148,14 +148,14 @@ func main() {
 		return
 
 	})
-	r.GET("/set", func(c *gin.Context) {
-		c.HTML(200, "12.html", nil)
-		return
-	})
-	r.GET("/mi", func(c *gin.Context) {
-		c.HTML(200, "1.html", nil)
-		return
-	})
+	//r.GET("/set", func(c *gin.Context) {
+	//	c.HTML(200, "12.html", nil)
+	//	return
+	//})
+	//r.GET("/mi", func(c *gin.Context) {
+	//	c.HTML(200, "1.html", nil)
+	//	return
+	//})
 	r.POST("/mi", func(c *gin.Context) {
 		file, _ := c.FormFile("file")
 		files, _ := file.Open()
@@ -201,7 +201,7 @@ func main() {
 		//c.File(path + "/class.ics")
 		_ = session.Save()
 
-		c.Redirect(302, "/file")
+		c.Redirect(302, "/api/file")
 		//c.Data(200, "text/calendar", []byte(t))
 
 		return
