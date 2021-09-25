@@ -59,3 +59,6 @@ yarn run build
 - 课表XLS(至少保留一门课程的信息)
 - 使用平台 (如 `移动端 Chrome 92`
 - Console错误输出 (如存在)
+## 🦴 其他语言版本
+* [Python版本](https://github.com/lx200916/UPC_ics-Public/tree/master)(初版 写的很烂的一版)
+* [Go版本](https://github.com/lx200916/UPC_ics-Public/tree/Golang)(比初版有过之而无不及)
